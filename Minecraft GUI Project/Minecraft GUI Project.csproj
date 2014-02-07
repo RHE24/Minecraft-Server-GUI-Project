@@ -186,7 +186,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <PublishFile Include="FirstFloor.ModernUI">
+    <PublishFile Include="en-US\Minecraft GUI Project.resources">
       <Visible>False</Visible>
       <Group>
       </Group>
@@ -194,7 +194,27 @@
       </TargetPath>
       <PublishState>Include</PublishState>
       <IncludeHash>True</IncludeHash>
+      <FileType>Satellite</FileType>
+    </PublishFile>
+    <PublishFile Include="FirstFloor.ModernUI">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Prerequisite</PublishState>
+      <IncludeHash>True</IncludeHash>
       <FileType>Assembly</FileType>
+    </PublishFile>
+    <PublishFile Include="pt-BR\Minecraft GUI Project.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Satellite</FileType>
     </PublishFile>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
