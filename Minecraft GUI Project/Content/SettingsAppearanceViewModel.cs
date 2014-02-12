@@ -55,14 +55,19 @@ namespace Minecraft_GUI_Project.Content
 
         public SettingsAppearanceViewModel()
         {
-            this._language.Add(new { DisplayName = "Portugues Brasil", Name = "pt-BR"});
-            this._language.Add(new { DisplayName = "English", Name = "en-US" });
+            _language.Add(new { DisplayName = "Portugues Brasil", Name = "pt-BR"});
+            _language.Add(new { DisplayName = "English", Name = "en-US" });
+
+            foreach (var lang in _language.Where(lang => lang.Name.Equals(Properties.Settings.Default.Lang)))
+            {
+                _selectedLanguage = lang;
+            }
 
             // add the default themes
-            this._themes.Add(new Link { DisplayName = "dark", Source = AppearanceManager.DarkThemeSource });
-            this._themes.Add(new Link { DisplayName = "light", Source = AppearanceManager.LightThemeSource });
+            _themes.Add(new Link { DisplayName = "dark", Source = AppearanceManager.DarkThemeSource });
+            _themes.Add(new Link { DisplayName = "light", Source = AppearanceManager.LightThemeSource });
 
-            this.SelectedFontSize = AppearanceManager.Current.FontSize == FontSize.Large ? FontLarge : FontSmall;
+            SelectedFontSize = AppearanceManager.Current.FontSize == FontSize.Large ? FontLarge : FontSmall;
             SyncThemeAndColor();
 
             AppearanceManager.Current.PropertyChanged += OnAppearanceManagerPropertyChanged;
@@ -105,26 +110,29 @@ namespace Minecraft_GUI_Project.Content
         }
         public dynamic SelectedLanguage
         {
-            get { return this._selectedLanguage; }
+            get
+            {
+                return this._selectedLanguage;
+            }
             set
             {
-                if (this._selectedLanguage != value)
-                {
-                    this._selectedLanguage = value;
-                    OnPropertyChanged("SelectedLanguage");
+                if (this._selectedLanguage == value) return;
 
-                    // and update the actual theme
+                this._selectedLanguage = value;
+                OnPropertyChanged("SelectedLanguage");
 
-                    Thread.CurrentThread.CurrentCulture = new CultureInfo(value.Name);
-                    Thread.CurrentThread.CurrentUICulture = new CultureInfo(value.Name);
+                Thread.CurrentThread.CurrentCulture = new CultureInfo(value.Name);
+                Thread.CurrentThread.CurrentUICulture = new CultureInfo(value.Name);
 
-                    var old = Application.Current.MainWindow;
+                var old = Application.Current.MainWindow;
 
-                    Application.Current.MainWindow = new MainWindow();
-                    Application.Current.MainWindow.Show();
+                Application.Current.MainWindow = new MainWindow();
+                Application.Current.MainWindow.Show();
 
-                    old.Close();
-                }
+                old.Close();
+
+                Properties.Settings.Default.Lang = value.Name;
+                Properties.Settings.Default.Save();
             }
         }
 

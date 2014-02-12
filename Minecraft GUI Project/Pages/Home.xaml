@@ -7,16 +7,17 @@
              d:DesignHeight="300" d:DesignWidth="360" >
     <Grid Style="{StaticResource ContentRoot}">
         <StackPanel VerticalAlignment="top" Orientation="Horizontal">
-            <Button Content="Start Server" HorizontalAlignment="Right" VerticalAlignment="top" Width="99" Click="Button_Click_1"/>
+            <Button Content="Start Server" HorizontalAlignment="Right" VerticalAlignment="top" Width="119" Margin="0,0,10,0" Click="Start"/>
+            <Button Content="Stop Server" HorizontalAlignment="Right" VerticalAlignment="top" Width="119" Margin="0,0,10,0" Click="Stop"/>
         </StackPanel>
-        <ScrollViewer x:Name="ScrollView" Margin="0,26,0,31">
-            <StackPanel MinWidth="200">
+        <ScrollViewer x:Name="ScrollView" Margin="0,36,0,31">
+            <StackPanel MinWidth="200" Background="#FFF1EFEF">
                 <TextBlock x:Name="Console" Text="" />
             </StackPanel>
         </ScrollViewer>
         <StackPanel VerticalAlignment="Bottom" Orientation="Horizontal">
-            <TextBox x:Name="InputCommand" Width="188" Height="26" HorizontalAlignment="Left" VerticalAlignment="Bottom" />
-            <Button Content="Send Command" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="129" Click="Button_Click"/>
+            <TextBox x:Name="InputCommand" Width="188" Height="26" HorizontalAlignment="Left" Margin="0,0,10,0" VerticalAlignment="Bottom" />
+            <Button Content="Send Command" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="129" Height="26" Click="SendCommand"/>
         </StackPanel>
     </Grid>
 </UserControl>

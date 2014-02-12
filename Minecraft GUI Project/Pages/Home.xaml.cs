@@ -17,6 +17,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using Minecraft_GUI_Project.ManagerProcess;
 
 namespace Minecraft_GUI_Project.Pages
 {
@@ -25,38 +26,40 @@ namespace Minecraft_GUI_Project.Pages
     /// </summary>
     public partial class Home : UserControl
     {
-        public static Process Proc;
+        public MinecraftProcess MinecraftProcess;
         public Home()
         {
             InitializeComponent();
+            MinecraftProcess = new MinecraftProcess();
         }
 
-        public void IniciarProcesso()
+        private void SendCommand(object sender, RoutedEventArgs e)
         {
-            var processInfo = new ProcessStartInfo("java.exe", "-jar craftbukkit.jar")
-            {
-                CreateNoWindow = true,
-                UseShellExecute = false,
-                RedirectStandardOutput = true,
-                RedirectStandardInput = true,
-                RedirectStandardError = true,
-                StandardErrorEncoding = Encoding.UTF8,
-                StandardOutputEncoding = Encoding.UTF8,
-                WorkingDirectory = "C:\\Users\\Daniel\\Desktop\\Servidor Teste"
-            };
+           MinecraftProcess.SendCommand(InputCommand.Text);
+        }
 
+        private void Start(object sender, RoutedEventArgs e)
+        {
+            MinecraftProcess.StartProcess();
 
-            if ((Proc = Process.Start(processInfo)) == null)
-            {
-                throw new InvalidOperationException("??");
-            }
-
-            Proc.OutputDataReceived += OnDataReceived;
-            Proc.BeginOutputReadLine();
+            MinecraftProcess.Process.ErrorDataReceived += ProcessOnErrorDataReceived;
+            MinecraftProcess.Process.BeginErrorReadLine();
+            MinecraftProcess.Process.OutputDataReceived += OnDataReceived;
+            MinecraftProcess.Process.BeginOutputReadLine();
 
             DispatcherTimer timer = new DispatcherTimer { Interval = new TimeSpan(0, 0, 2) };
             timer.Tick += OnTimerOnTick;
             timer.Start();
+        }
+
+        private void ProcessOnErrorDataReceived(object sender, DataReceivedEventArgs args)
+        {
+            Dispatcher.BeginInvoke(DispatcherPriority.Normal, new ThreadStart(() => { Console.Text = Console.Text + "\n " + args.Data; }));
+        }
+
+        public void Stop(object sender, RoutedEventArgs e)
+        {
+            MinecraftProcess.SendCommand("stop");
         }
 
         private void OnTimerOnTick(object sender, EventArgs e)
@@ -69,24 +72,8 @@ namespace Minecraft_GUI_Project.Pages
 
         private void OnDataReceived(object sender, DataReceivedEventArgs args)
         {
-            Dispatcher.BeginInvoke(DispatcherPriority.Normal, new ThreadStart(() => { Console.Text = Console.Text + "\n" + args.Data; }));
+            Dispatcher.BeginInvoke(DispatcherPriority.Normal, new ThreadStart(() => { Console.Text = Console.Text + "\n " + args.Data; }));
         }
 
-        public static void SendCommand(String command)
-        {
-            byte[] buffer = Encoding.GetEncoding("utf-8").GetBytes(command + "\r");
-            Proc.StandardInput.BaseStream.Write(buffer, 0, buffer.Length);
-            Proc.StandardInput.Flush();
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            SendCommand(InputCommand.Text);
-        }
-
-        private void Button_Click_1(object sender, RoutedEventArgs e)
-        {
-            IniciarProcesso();
-        }
     }
 }

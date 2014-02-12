@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace Minecraft_GUI_Project.Content
 {
     /// <summary>
-    /// Interaction logic for SettingsAppearance.xaml
+    /// Interaction logic for SettingsServer.xaml
     /// </summary>
-    public partial class SettingsAppearance : UserControl
+    public partial class SettingsServer : UserControl
     {
-        public SettingsAppearance()
+        public SettingsServer()
         {
             InitializeComponent();
         }

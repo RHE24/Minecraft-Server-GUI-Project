@@ -3,8 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Minecraft_GUI_Project.Content"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.DataContext>
+        <local:SettingsAppearanceViewModel></local:SettingsAppearanceViewModel>
+    </UserControl.DataContext>
     <Grid>
         <ScrollViewer>
             <StackPanel x:Name="Panel" MinWidth="150">
@@ -45,8 +49,8 @@
                     <TextBlock Grid.Row="1" Text="Font size:" VerticalAlignment="Center" Margin="0,0,16,0" />
                     <ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding FontSizes}" SelectedItem="{Binding SelectedFontSize, Mode=TwoWay}" VerticalAlignment="Center" />
 
-                    <TextBlock Grid.Row="1" Text="Language:" VerticalAlignment="Center" Margin="0,24,16,-18" />
-                    <ComboBox Grid.Column="1" ItemsSource="{Binding Langague}" SelectedItem="{Binding SelectedLanguage, Mode=TwoWay}" DisplayMemberPath="DisplayName" VerticalAlignment="Center" Margin="0,22,0,-22" Grid.Row="1" />
+                    <TextBlock Grid.Row="1" Text="Language:" VerticalAlignment="Center" Margin="0,27,16,-21" />
+                    <ComboBox Grid.Column="1" ItemsSource="{Binding Langague}" SelectedItem="{Binding SelectedLanguage, Mode=TwoWay}" DisplayMemberPath="DisplayName" VerticalAlignment="Center" Margin="0,27,0,-27" Grid.Row="1" />
 
                 </Grid>
             </StackPanel>
