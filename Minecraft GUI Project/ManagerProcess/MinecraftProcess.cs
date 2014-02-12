@@ -12,18 +12,15 @@ namespace Minecraft_GUI_Project.ManagerProcess
     public class MinecraftProcess
     {
         public static Process Process;
-        private readonly string _diretory;
+        private string _diretory;
         public String Status;
 
-        public MinecraftProcess()
+        public void StartProcess()
         {
             _diretory = Properties.Settings.Default.WorkingDiretory;
             if (String.IsNullOrWhiteSpace(_diretory))
                 _diretory = "\\";
-        }
 
-        public void StartProcess()
-        {
             var processInfo = new ProcessStartInfo("java.exe", "-jar craftbukkit.jar")
             {
                 CreateNoWindow = true,
