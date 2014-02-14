@@ -64,11 +64,55 @@ namespace Minecraft_GUI_Project.Pages
 
         private void OnTimerOnTick(object sender, EventArgs e)
         {
+            if (MinecraftProcess.Process.HasExited)
+            {
+                MemoryValue.Text = "0 MB";
+                CpuValue.Text = "0 %";
+                return;
+            }
+                
+
             if (ScrollView.VerticalOffset.Equals(ScrollView.ScrollableHeight))
             {
                 ScrollView.ScrollToEnd();
             }
+
+            SetCpu();
+            SetMemory(GetMemory());
         }
+
+        private void SetMemory(string text)
+        {
+            Dispatcher.BeginInvoke(DispatcherPriority.Normal, new ThreadStart(() => MemoryValue.Text = text));
+        }
+
+        private void SetCpu()
+        {
+            new Thread(() =>
+            {
+                PerformanceCounter performanceCounter = new PerformanceCounter
+                {
+                    CategoryName = "Process",
+                    CounterName = "% Processor Time",
+                    InstanceName = MinecraftProcess.Process.ProcessName
+                };
+                performanceCounter.NextValue();
+                Thread.Sleep(1000);
+                Dispatcher.BeginInvoke(DispatcherPriority.Background, new ThreadStart(() => CpuValue.Text = (performanceCounter.NextValue() / Environment.ProcessorCount).ToString("N2") + " %"));
+            }).Start();
+        }
+
+        private String GetMemory()
+        {
+            PerformanceCounter performanceCounter = new PerformanceCounter
+            {
+                CategoryName = "Process",
+                CounterName = "Working Set",
+                InstanceName = MinecraftProcess.Process.ProcessName
+            };
+            return ((uint)performanceCounter.NextValue()/1024/1000).ToString("N0") + " MB";
+        }
+
 
         private void OnDataReceived(object sender, DataReceivedEventArgs args)
         {

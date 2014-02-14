@@ -11,6 +11,7 @@
         <mui:LinkGroup DisplayName="{x:Static resx:Resources.welcome}">
             <mui:LinkGroup.Links>
                 <mui:Link DisplayName="{x:Static resx:Resources.home}" Source="/Pages/Home.xaml" />
+                <mui:Link DisplayName="{x:Static resx:Resources.playerlist}" Source="/Pages/PlayerList.xaml" />
             </mui:LinkGroup.Links>
         </mui:LinkGroup>
         <mui:LinkGroup DisplayName="{x:Static resx:Resources.settings}" GroupName="settings">

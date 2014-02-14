@@ -10,6 +10,17 @@
             <Button Content="Start Server" HorizontalAlignment="Right" VerticalAlignment="top" Width="119" Margin="0,0,10,0" Click="Start"/>
             <Button Content="Stop Server" HorizontalAlignment="Right" VerticalAlignment="top" Width="119" Margin="0,0,10,0" Click="Stop"/>
         </StackPanel>
+        <StackPanel VerticalAlignment="Top" Orientation="Vertical" HorizontalAlignment="Right">
+            <StackPanel VerticalAlignment="Top" Orientation="Horizontal" HorizontalAlignment="Right">
+                <TextBlock Text="Used Memory"></TextBlock>
+                <TextBlock Name="MemoryValue" Text="0 MB" Margin="10,0,0,0"></TextBlock>
+            </StackPanel>
+            <StackPanel VerticalAlignment="Top" Orientation="Horizontal" HorizontalAlignment="Right">
+                <TextBlock Text="CPU Usage"></TextBlock>
+                <TextBlock Name="CpuValue" Text="0 %" Margin="10,0,0,0"></TextBlock>
+            </StackPanel>
+        </StackPanel>
+        
         <ScrollViewer x:Name="ScrollView" Margin="0,36,0,31">
             <StackPanel MinWidth="200" Background="#FFF1EFEF">
                 <TextBlock x:Name="Console" Text="" />

@@ -120,6 +120,9 @@
   <data name="home" xml:space="preserve">
     <value>home</value>
   </data>
+  <data name="playerlist" xml:space="preserve">
+    <value>playerlist</value>
+  </data>
   <data name="settings" xml:space="preserve">
     <value>settings</value>
   </data>

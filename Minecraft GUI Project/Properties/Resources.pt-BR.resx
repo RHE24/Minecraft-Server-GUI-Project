@@ -120,6 +120,9 @@
   <data name="home" xml:space="preserve">
     <value>Principal</value>
   </data>
+  <data name="playerlist" xml:space="preserve">
+    <value>Lista de jogadores</value>
+  </data>
   <data name="settings" xml:space="preserve">
     <value>Configurações</value>
   </data>

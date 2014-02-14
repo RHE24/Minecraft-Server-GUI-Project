@@ -70,6 +70,15 @@ namespace Minecraft_GUI_Project.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to playerlist.
+        /// </summary>
+        public static string playerlist {
+            get {
+                return ResourceManager.GetString("playerlist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to settings.
         /// </summary>
         public static string settings {
