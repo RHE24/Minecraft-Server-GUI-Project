@@ -8,5 +8,11 @@
     <Setting Name="WorkingDiretory" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="JarParam" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="JavaParam" Type="System.String" Scope="User">
+      <Value Profile="(Default)">-Xms1024M -Xmx10024M -XX:MaxPermSize=128M</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

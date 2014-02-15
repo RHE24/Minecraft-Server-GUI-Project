@@ -10,13 +10,17 @@
     <UserControl.DataContext>
         <local:SetttingsServerViewModel></local:SetttingsServerViewModel>
     </UserControl.DataContext>
-    <Grid Style="{StaticResource ContentRoot}">
+    <Grid>
         <ScrollViewer>
             <StackPanel MinWidth="200">
-                <TextBlock Text="BASIC PAGE" Style="{StaticResource Heading2}" />
+                <TextBlock Text="Server Settings" Style="{StaticResource Heading2}" />
                 <StackPanel Orientation="Vertical">
                     <TextBlock Text="Server Diretory Path :" />
-                    <TextBox Width="260" Text="{Binding Diretory}" />
+                    <TextBox Width="320" Text="{Binding Diretory}" />
+                    <TextBlock Text="Java extra Param :" />
+                    <TextBox Width="320" Text="{Binding JavaParam}" />
+                    <TextBlock Text="Jar extra Param :" />
+                    <TextBox Width="320" Text="{Binding JarParam}" />
                 </StackPanel>
             </StackPanel>
         </ScrollViewer>

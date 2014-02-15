@@ -38,11 +38,16 @@ namespace Minecraft_GUI_Project.Pages
            MinecraftProcess.SendCommand(InputCommand.Text);
         }
 
+        public void Download(object sender, RoutedEventArgs e)
+        {
+            
+        }
+
         private void Start(object sender, RoutedEventArgs e)
         {
             MinecraftProcess.StartProcess();
 
-            MinecraftProcess.Process.ErrorDataReceived += ProcessOnErrorDataReceived;
+            MinecraftProcess.Process.ErrorDataReceived += OnErrorReceived;
             MinecraftProcess.Process.BeginErrorReadLine();
             MinecraftProcess.Process.OutputDataReceived += OnDataReceived;
             MinecraftProcess.Process.BeginOutputReadLine();
@@ -52,7 +57,12 @@ namespace Minecraft_GUI_Project.Pages
             timer.Start();
         }
 
-        private void ProcessOnErrorDataReceived(object sender, DataReceivedEventArgs args)
+        private void OnDataReceived(object sender, DataReceivedEventArgs args)
+        {
+            Dispatcher.BeginInvoke(DispatcherPriority.Normal, new ThreadStart(() => { Console.Text = Console.Text + "\n " + args.Data; }));
+        }
+
+        private void OnErrorReceived(object sender, DataReceivedEventArgs args)
         {
             Dispatcher.BeginInvoke(DispatcherPriority.Normal, new ThreadStart(() => { Console.Text = Console.Text + "\n " + args.Data; }));
         }
@@ -78,18 +88,15 @@ namespace Minecraft_GUI_Project.Pages
             }
 
             SetCpu();
-            SetMemory(GetMemory());
-        }
-
-        private void SetMemory(string text)
-        {
-            Dispatcher.BeginInvoke(DispatcherPriority.Normal, new ThreadStart(() => MemoryValue.Text = text));
+            SetMemory();
         }
 
         private void SetCpu()
         {
             new Thread(() =>
             {
+                if(MinecraftProcess.Process.HasExited) return;
+
                 PerformanceCounter performanceCounter = new PerformanceCounter
                 {
                     CategoryName = "Process",
@@ -98,11 +105,14 @@ namespace Minecraft_GUI_Project.Pages
                 };
                 performanceCounter.NextValue();
                 Thread.Sleep(1000);
+
+                if (MinecraftProcess.Process.HasExited) return;
+
                 Dispatcher.BeginInvoke(DispatcherPriority.Background, new ThreadStart(() => CpuValue.Text = (performanceCounter.NextValue() / Environment.ProcessorCount).ToString("N2") + " %"));
             }).Start();
         }
 
-        private String GetMemory()
+        private void SetMemory()
         {
             PerformanceCounter performanceCounter = new PerformanceCounter
             {
@@ -110,13 +120,8 @@ namespace Minecraft_GUI_Project.Pages
                 CounterName = "Working Set",
                 InstanceName = MinecraftProcess.Process.ProcessName
             };
-            return ((uint)performanceCounter.NextValue()/1024/1000).ToString("N0") + " MB";
-        }
-
-
-        private void OnDataReceived(object sender, DataReceivedEventArgs args)
-        {
-            Dispatcher.BeginInvoke(DispatcherPriority.Normal, new ThreadStart(() => { Console.Text = Console.Text + "\n " + args.Data; }));
+            string text = ((uint)performanceCounter.NextValue()/1024/1000).ToString("N0") + " MB";
+            Dispatcher.BeginInvoke(DispatcherPriority.Normal, new ThreadStart(() => MemoryValue.Text = text));
         }
 
     }

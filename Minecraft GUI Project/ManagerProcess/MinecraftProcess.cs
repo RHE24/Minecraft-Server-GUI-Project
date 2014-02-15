@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -11,6 +12,7 @@ namespace Minecraft_GUI_Project.ManagerProcess
 {
     public class MinecraftProcess
     {
+        private String _javadir;
         public static Process Process;
         private string _diretory;
         public String Status;
@@ -21,7 +23,15 @@ namespace Minecraft_GUI_Project.ManagerProcess
             if (String.IsNullOrWhiteSpace(_diretory))
                 _diretory = "\\";
 
-            var processInfo = new ProcessStartInfo("java.exe", "-jar craftbukkit.jar")
+            string javadir;
+            LocateJava();
+            if (!_javadir.Equals(String.Empty)) {
+                javadir = this._javadir + "java.exe";
+            } else {
+                javadir = "java.exe";
+            }
+
+            var processInfo = new ProcessStartInfo(javadir, Properties.Settings.Default.JavaParam + " -jar craftbukkit.jar " + Properties.Settings.Default.JarParam)
             {
                 CreateNoWindow = true,
                 UseShellExecute = false,
@@ -35,6 +45,26 @@ namespace Minecraft_GUI_Project.ManagerProcess
 
             Process = new Process { StartInfo = processInfo };
             Process.Start();
+            
+        }
+
+        private void LocateJava()
+        {
+            String path = Environment.GetEnvironmentVariable("path");
+            if (path == null) return;
+            String[] folders = path.Split(';');
+            foreach (String folder in folders)
+            {
+                if (File.Exists(folder + "java.exe"))
+                {
+                    _javadir = folder;
+                    return;
+                }
+                if (!File.Exists(folder + "\\java.exe")) continue;
+
+                _javadir = folder + "\\";
+                return;
+            }
         }
 
         public static void SendCommand(String command)

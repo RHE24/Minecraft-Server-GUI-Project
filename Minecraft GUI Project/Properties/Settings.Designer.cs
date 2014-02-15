@@ -46,5 +46,29 @@ namespace Minecraft_GUI_Project.Properties {
                 this["WorkingDiretory"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string JarParam {
+            get {
+                return ((string)(this["JarParam"]));
+            }
+            set {
+                this["JarParam"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("-Xms1024M -Xmx10024M -XX:MaxPermSize=128M")]
+        public string JavaParam {
+            get {
+                return ((string)(this["JavaParam"]));
+            }
+            set {
+                this["JavaParam"] = value;
+            }
+        }
     }
 }
